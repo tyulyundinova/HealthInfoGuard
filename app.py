@@ -3,6 +3,21 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 import json
+from deep_translator import GoogleTranslator
+def translate_to_english(text):
+    try:
+        translated = GoogleTranslator(
+            source="auto",
+            target="en"
+        ).translate(text)
+
+        if translated:
+            return translated
+
+        return text
+
+    except Exception:
+        return text
 
 st.set_page_config(
     page_title="HealthInfo Guard",
