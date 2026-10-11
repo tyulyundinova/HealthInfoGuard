@@ -4,7 +4,15 @@ import urllib.request
 import xml.etree.ElementTree as ET
 import json
 from deep_translator import GoogleTranslator
+
+
 def translate_to_english(text):
+    text = text.strip()
+
+    # If the claim is already in English, do not translate it.
+    if all(ord(char) < 128 for char in text):
+        return text
+
     try:
         translated = GoogleTranslator(
             source="auto",
@@ -14,17 +22,23 @@ def translate_to_english(text):
         if translated:
             return translated
 
-        return "[Translation returned no result]"
+        return text
 
     except Exception as error:
-        st.warning(f"Translation failed: {error}")
+        st.warning(
+            "Automatic translation is temporarily unavailable. "
+            "Please try entering your claim in English."
+        )
+        st.caption(f"Translation error: {error}")
         return text
+
 
 st.set_page_config(
     page_title="HealthInfo Guard",
     page_icon="🔎",
     layout="centered"
 )
+
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
