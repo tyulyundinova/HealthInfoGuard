@@ -14,9 +14,10 @@ def translate_to_english(text):
         if translated:
             return translated
 
-        return text
+        return "[Translation returned no result]"
 
-    except Exception:
+    except Exception as error:
+        st.warning(f"Translation failed: {error}")
         return text
 
 st.set_page_config(
