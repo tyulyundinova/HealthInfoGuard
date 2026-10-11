@@ -535,7 +535,13 @@ if st.button("Search scientific evidence", type="primary"):
     else:
         with st.spinner("Searching PubMed for relevant publications..."):
             try:
-                articles = search_pubmed(claim, max_results)
+                translated_claim = translate_to_english(claim)
+
+                st.caption(
+                    f"English search query: {translated_claim}"
+                )
+
+                articles = search_pubmed(translated_claim, max_results)
 
                 st.divider()
                 st.subheader("Search results")
